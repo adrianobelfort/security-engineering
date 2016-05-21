@@ -13,7 +13,6 @@ import java.math.BigInteger;
  */
 public class RSA
 {
-    private int keyLength;
     private RSAKey key;   
     
     public RSA(RSAKey givenKey)
@@ -28,10 +27,11 @@ public class RSA
         
         messageAsInteger = new BigInteger(message);
         C = messageAsInteger.modPow(key.key, key.n);
+        //System.out.println("Using key " + key.key.toString() + " -> C: " + C.toString());
         
         return C.toByteArray();
     }
-    
+
     public byte[] decrypt(byte[] message)
     {
         return encrypt(message);

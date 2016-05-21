@@ -5,20 +5,17 @@
  */
 package homesecurity;
 
-import java.math.BigInteger;
-
 /**
  *
  * @author adria
  */
-public class RSAKey
-{    
-    public BigInteger key;
-    public BigInteger n;
-    
-    RSAKey(BigInteger key, BigInteger n)
+public class EncryptedBytes
+{
+    public byte[] information;
+
+    @Override
+    public String toString()
     {
-        this.key = key;
-        this.n = n;
+        return new String(information);
     }
 }

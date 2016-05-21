@@ -12,15 +12,15 @@ import java.util.Random;
  *
  * @author adria
  */
-public class RSAKeys
+public class KeyFactory
 {
-    private static final int KEYLENGTH = 512;
+    private static final int KEYLENGTH = 1024;
     
     public BigInteger e;
     public BigInteger d;
     public BigInteger n;
     
-    public static RSAKey[] generate()
+    public static RSAKey[] generatePair()
     {
         RSAKey keys[] = new RSAKey[2];
         
@@ -54,11 +54,11 @@ public class RSAKeys
         /*  After finding e, we then take the inverse of e mod phi */
         BigInteger d = e.modInverse(phi);
         
-        /*  The first element of the array is the private key; the second is
-            the public key
+        /*  The first element of the array is the public key; the second is
+            the private key
         */
-        keys[0] = new RSAKey(KEYLENGTH, e, n);
-        keys[1] = new RSAKey(KEYLENGTH, d, n);
+        keys[0] = new RSAKey(d, n);
+        keys[1] = new RSAKey(e, n);
         
         return keys;
     }
