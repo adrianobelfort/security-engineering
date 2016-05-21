@@ -7,7 +7,6 @@ package homesecurity;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -185,26 +184,7 @@ public class HomeSecurity
         //System.out.println("Public key: " + keys[PUBLICKEY].key.toString() + " (n = " + keys[PUBLICKEY].n + ")");
         
         rsaEncryption = new RSA(keys[PRIVATEKEY]);
-        rsaDecryption = new RSA(keys[PUBLICKEY]);
-        
-        /*Random r = new Random();
-        int[] elements = new int[23];
-   
-        for (int i = 0; i < elements.length; i++)
-        {
-            elements[i] = r.nextInt() % 30;
-        }
-        
-        System.out.println("Elements: ");
-        printArray(elements);
-        
-        System.out.println("Scrobbled elements: ");
-        scatter(elements);
-        printArray(elements);
-        
-        System.out.println("Unscrobbled elements: ");
-        unscatter(elements);
-        printArray(elements); */       
+        rsaDecryption = new RSA(keys[PUBLICKEY]);     
         
         // ENCRYPTION
         System.out.print("Enter a string to encrypt: ");
@@ -215,15 +195,18 @@ public class HomeSecurity
         stringInBytes = originalString.getBytes();
         scatter(stringInBytes);
         encryptedbytes = rsaEncryption.encrypt(stringInBytes);
+        System.out.println("");
         
         //System.out.println("The encrypted string is " + convertToString(encryptedMessage.extractInformation()));
         
         System.out.println("Decrypting the encrypted string...");
         //decryptedbytes = rsaDecryption.decrypt(encryptedMessage.extractInformation());
         decryptedbytes = rsaDecryption.decrypt(encryptedbytes);
+        System.out.println("Scattered, decrypted message: " + new String(decryptedbytes));
         unscatter(decryptedbytes);
         decryptedString = new String(decryptedbytes);
         
+        System.out.println("");
         System.out.println("The decrypted string is: " + decryptedString);
         
         System.out.println("The original and decrypted strings are " + (originalString.equalsIgnoreCase(decryptedString) ?

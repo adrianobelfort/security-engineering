@@ -16,11 +16,13 @@ public class ClosedSequence
     private final int modulo;
     private int lookingAt;
     private ArrayList<Integer> sequence;
+    private boolean gotStuck;
 
     public ClosedSequence(int size)
     {
         this.modulo = size;
         lookingAt = 0;
+        gotStuck = false;
         sequence = fibonacciSequenceUntil(size);
     }
     
@@ -56,7 +58,11 @@ public class ClosedSequence
         int lastElement = sequence.get(sequence.size() - 1);
         int lookedAtElement = sequence.get(lookingAt);
         
-        int nextElement = (lookedAtElement + lastElement) % modulo;
+        int nextElement = (lookedAtElement + lastElement + (gotStuck ? 1 : 0)) % modulo;
+        
+        /*  In case the algorithm was stuck in a loop, we signal there was an 
+            attempt of change */
+        if (gotStuck) gotStuck = false;
         
         sequence.add(nextElement);
         
@@ -70,6 +76,7 @@ public class ClosedSequence
     {
         ArrayList<Integer> unique = new ArrayList<>();
         int i = 0;
+        long timesOnSameI = 0;
         
         for (Integer l : sequence)
         {
@@ -84,10 +91,24 @@ public class ClosedSequence
         {
             int nextElement = next();
             
+            timesOnSameI++;
+            
             if (!unique.contains(nextElement))
             {
                 unique.add(nextElement);
                 i++;
+                
+                timesOnSameI = 0;
+            }
+            
+            /*  If we can't find a new element within the range of modulo after
+                more than 1000 times the modulo, it means we might be stuck.
+                Therefore, we set gotStuck to true as a means of unstucking the
+                modular fibonacci sequence, thus finding a new element
+            */
+            if (timesOnSameI > 1000 * modulo)
+            {
+                gotStuck = true;
             }
         }
         
