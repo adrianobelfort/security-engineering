@@ -11,8 +11,18 @@ package homesecurity;
  */
 public class EncryptedBytes
 {
-    public byte[] information;
+    private byte[] information;
 
+    public EncryptedBytes(byte[] information)
+    {
+        this.information = information;
+    }
+    
+    public byte[] extractInformation()
+    {
+        return information;
+    }
+    
     @Override
     public String toString()
     {
