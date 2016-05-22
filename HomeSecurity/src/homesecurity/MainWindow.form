@@ -189,8 +189,9 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="encryptTextArea">
+                <Component class="javax.swing.JTextArea" name="originalFileTextArea">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
                   </Properties>
@@ -203,6 +204,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTextArea" name="encryptedTextArea">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
                   </Properties>
@@ -267,7 +269,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="NDecryptKeyTextField" pref="530" max="32767" attributes="0"/>
-                                  <Component id="RSADecryptKeyTextField" max="32767" attributes="0"/>
+                                  <Component id="RSADecryptKeyTextField" pref="530" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="decryptButton" min="-2" pref="120" max="-2" attributes="0"/>
@@ -275,18 +277,18 @@
                           <Component id="jScrollPane4" alignment="1" max="32767" attributes="0"/>
                           <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Component id="decryptionEncryptedFilenameLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="162" max="32767" attributes="0"/>
                               <Component id="decryptChooseFileButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="320" max="-2" attributes="0"/>
+                              <Component id="encryptedFilenameDecryptionField" min="-2" pref="320" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="decryptionPreviewLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                              <Component id="decryptionDecryptedFilenameLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="decryptedFilenameField" min="-2" pref="320" max="-2" attributes="0"/>
                           </Group>
@@ -299,11 +301,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="decryptionPreviewLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="decryptionEncryptedFilenameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="encryptedFilenameDecryptionField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="decryptChooseFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -311,7 +313,7 @@
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="decryptedFilenameField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="decryptionDecryptedFilenameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane4" min="-2" pref="230" max="-2" attributes="0"/>
@@ -336,17 +338,17 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="decryptionPreviewLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pr&#xe9;-visualiza&#xe7;&#xe3;o"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="decryptionEncryptedFilenameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Arquivo criptografado"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="encryptedFilenameDecryptionField">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
@@ -355,6 +357,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Escolher arquivo..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decryptChooseFileButtonActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane3">
 
@@ -362,6 +367,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTextArea" name="loadedEncryptedFileTextArea">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
                   </Properties>
@@ -374,6 +380,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTextArea" name="decryptedFileTextArea">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
                   </Properties>
@@ -383,13 +390,20 @@
             <Component class="javax.swing.JButton" name="decryptButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Decriptografar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decryptButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="NDecryptKeyTextField">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="NDecryptKeyTextFieldKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="RSADecryptKeyTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RSADecryptKeyTextFieldActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="RSADecryptKeyTextFieldKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="RSADecryptKeyLabel">
@@ -407,7 +421,7 @@
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel8">
+            <Component class="javax.swing.JLabel" name="decryptionDecryptedFilenameLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Arquivo decriptografado"/>
               </Properties>
@@ -642,6 +656,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usar na decriptografia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generatedPublicKeyToDecryptionButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="savePrivateKeyButton">
               <Properties>
@@ -660,6 +677,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usar na decriptografia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generatedPrivateKeyToDecryptionButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
@@ -687,6 +707,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usar na decriptografia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useLoadedKeyOnDecryptionButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteKeyButton">
               <Properties>
