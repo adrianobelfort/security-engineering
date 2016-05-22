@@ -28,129 +28,6 @@ public class HomeSecurity
         return stringMessage;
     }
     
-    public static ArrayList fibonacciSequence(int n)
-    {
-        ArrayList<Integer> sequence = new ArrayList<>();
-        
-        if (n < 0)
-        {
-            return null;
-        }
-        if (n >= 0)
-        {
-            sequence.add(0);
-        }
-        if (n >= 1)
-        {
-            sequence.add(1);
-        }
-        if (n >= 2)
-        {
-            for (int i = 2; i <= n; i++)
-            {
-                sequence.add(sequence.get(i-2) + sequence.get(i-1));
-            }
-        }
-        
-        return sequence;
-    }
-    
-    public static ArrayList fibonacciSequenceUntil(int n)
-    {
-        ArrayList<Integer> sequence = new ArrayList<>();
-        
-        if (n < 0)
-        {
-            return null;
-        }
-        if (n >= 0)
-        {
-            sequence.add(0);
-        }
-        if (n >= 1)
-        {
-            sequence.add(1);
-        }
-        if (n >= 2)
-        {
-            for (int i = 2; sequence.get(i-2) + sequence.get(i-1) <= n; i++)
-            {
-                sequence.add(sequence.get(i-2) + sequence.get(i-1));
-            }
-        }
-        
-        return sequence;
-    }
-    
-    public static int nextFibonacci(ArrayList<Integer> sequence)
-    {
-        int size = sequence.size();
-        sequence.add(sequence.get(size-1) + sequence.get(size - 2));
-        
-        return sequence.get(size);
-    }
-    
-    public static void scatter(byte[] elements)
-    {
-        int size = elements.length;
-        int mappingSize = size / 2;
-        int currentPosition;
-        ArrayList<Integer> mappingSequence;
-        ClosedSequence closedFibonacci = new ClosedSequence(mappingSize);
-
-        mappingSequence = closedFibonacci.uniqueSequence();
-        
-        //System.out.println("Mapping sequence: " + mappingSequence.toString());
-        
-        currentPosition = size / 2;
-        if (size % 2 != 0) currentPosition++;
-        
-        for (Integer mappedPosition : mappingSequence)
-        {
-            byte auxiliar;
-            
-            auxiliar = elements[currentPosition];
-            elements[currentPosition] = elements[mappedPosition];
-            elements[mappedPosition] = auxiliar;
-            
-            currentPosition++;
-        }
-    }
-    
-    public static void unscatter(byte[] elements)
-    {
-        int size = elements.length;
-        int mappingSize = size / 2;
-        int currentPosition, offset;
-        ArrayList<Integer> mappingSequence;
-        ClosedSequence closedFibonacci = new ClosedSequence(mappingSize);
-
-        mappingSequence = closedFibonacci.uniqueSequence();
-        
-        //System.out.println("Mapping sequence: " + mappingSequence.toString());
-        
-        currentPosition = size / 2;
-        if (size % 2 != 0) currentPosition++;
-        
-        TreeMap<Integer,Integer> backMapping = new TreeMap<>();
-        for(Integer mappedPosition : mappingSequence)
-        {
-            backMapping.put(mappedPosition, currentPosition);
-            currentPosition++;
-        }
-        
-        for (Map.Entry<Integer,Integer> entry : backMapping.entrySet())
-        {
-            int mappedPosition = entry.getKey();
-            int originalPosition = entry.getValue();
-            byte aux;
-            
-            aux = elements[mappedPosition];
-            elements[mappedPosition] = elements[originalPosition];
-            elements[originalPosition] = aux;
-        }
-    }
-    
     public static void printArray(int[] elements)
     {
         System.out.print("[" + elements[0]);
@@ -193,7 +70,7 @@ public class HomeSecurity
         System.out.println("Encrypting " + originalString + " ...");
         //encryptedMessage = new EncryptedBytes(rsaEncryption.encrypt(originalString.getBytes()));
         stringInBytes = originalString.getBytes();
-        scatter(stringInBytes);
+        stringInBytes = Scatterer.scatter(stringInBytes);
         encryptedbytes = rsaEncryption.encrypt(stringInBytes);
         System.out.println("");
         
@@ -203,7 +80,7 @@ public class HomeSecurity
         //decryptedbytes = rsaDecryption.decrypt(encryptedMessage.extractInformation());
         decryptedbytes = rsaDecryption.decrypt(encryptedbytes);
         System.out.println("Scattered, decrypted message: " + new String(decryptedbytes));
-        unscatter(decryptedbytes);
+        decryptedbytes = Scatterer.unscatter(decryptedbytes);
         decryptedString = new String(decryptedbytes);
         
         System.out.println("");
