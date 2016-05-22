@@ -571,8 +571,6 @@ public class MainWindow extends javax.swing.JFrame
         String pathToWrite = chosenFile.getAbsolutePath() + ".txt";
         System.out.println("Chosen file to write: " + pathToWrite);
         
-        JOptionPane.showMessageDialog(this, "Encriptação realizada com sucesso", "Mensagem encriptada", JOptionPane.PLAIN_MESSAGE);
-        
         try 
         {
             TextWriter.writeOnFile(pathToWrite, encryptedBytes);
