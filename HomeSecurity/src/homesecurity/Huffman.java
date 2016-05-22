@@ -1,8 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package homesecurity;
 
-import java.util.*;
-import java.io.*;
+import java.io.UnsupportedEncodingException;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Vector;
 
+/**
+ *
+ * @author adria
+ */
 public class Huffman{
 	// The class Node is used for representing each
 	// node in the Huffman tree
@@ -207,13 +220,13 @@ public class Huffman{
 
 		currentBit = currentBit + remainingBits;
 
-		System.out.println("Huffman compression stats:");
+		/*System.out.println("Huffman compression stats:");
 		System.out.println("\tOriginal bits: " + (msg.length*8) + " bits (" + msg.length + " bytes)");
 		System.out.println("\tHuffman bits: " + (currentBit - overhead) + " bits");
 		System.out.println("\tHuffman tree overhead: " + overhead + " bits");
-		System.out.println("\tHuffman total size: " + currentBit + " bits (" + currentBit/8 + " bytes)");
+		System.out.println("\tHuffman total size: " + currentBit + " bits (" + currentBit/8 + " bytes)");*/
 
-		printBitSet(bits, currentBit);
+		//printBitSet(bits, currentBit);
 
 		byte[] ret = new byte[currentBit/8];
 		for(int i=0; i<currentBit; i+=8){
@@ -234,7 +247,7 @@ public class Huffman{
 			bitcount = bitcount+8;
 		}
 
-		printBitSet(bits, bitcount);
+		//printBitSet(bits, bitcount);
 
 		//byte[] ret = new byte[5];
 
@@ -269,21 +282,18 @@ public class Huffman{
 		byte[] encoded;
 		byte[] decoded;
 
-		try{
-			encoded = Huffman.Encode(message.getBytes("US-ASCII"));
-			decoded = Decode(encoded);
+                encoded = Huffman.Encode(message.getBytes());
+                decoded = Decode(encoded);
 
-			char[] msg = new char[decoded.length];
+                char[] msg = new char[decoded.length];
 
-			int i;
-			for(i=0; i<msg.length; i++){
-				msg[i] = (char)decoded[i];
-			}
+                int i;
+                for(i=0; i<msg.length; i++){
+                        msg[i] = (char)decoded[i];
+                }
 
-			System.out.println(msg);
-			System.out.println(new String("decoded"));
-		}catch(UnsupportedEncodingException e){
-			System.out.println("Failed 0");
-		}
+                System.out.println(msg);
+                System.out.println(new String("decoded"));
+		
 	}
 }
