@@ -21,4 +21,11 @@ public class RSAKey
         this.key = key;
         this.n = n;
     }
+    
+    @Override
+    public String toString()
+    {
+        return new String("[Key length: " + key.toString().length() + "\nKey = " + key.toString() + "\nN = " + n.toString() + "]");
+    }
+            
 }

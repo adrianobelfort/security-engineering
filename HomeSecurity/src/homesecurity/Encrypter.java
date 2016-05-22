@@ -22,10 +22,26 @@ public class Encrypter
     
     public byte[] encrypt(byte[] data)
     {
-        byte[] encryptedData, receivedData;
+        byte[] encryptedData, receivedData, scatteredData;
         
+        receivedData = data.clone();
         
+        // Insert Denilson's method here
+        scatteredData = Scatterer.scatter(receivedData);
+        encryptedData = rsaEncrypter.encrypt(scatteredData);
         
-        return null;
+        return encryptedData;
+    }
+    
+    public byte[] decrypt(byte[] data)
+    {
+        byte[] decryptedData, receivedData, unscatteredData;
+        
+        receivedData = data.clone();
+        decryptedData = rsaEncrypter.decrypt(receivedData);
+        unscatteredData = Scatterer.unscatter(decryptedData);
+        // Insert Denilson's method here
+        
+        return unscatteredData;
     }
 }

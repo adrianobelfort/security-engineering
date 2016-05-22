@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -46,7 +47,11 @@ public class MainWindow extends javax.swing.JFrame
             encryptButton.setEnabled(false);
         }
     }
-
+    
+    private void copyText(JTextField destination, JTextField source)
+    {
+        destination.setText(source.getText());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,7 +62,7 @@ public class MainWindow extends javax.swing.JFrame
     private void initComponents()
     {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPane = new javax.swing.JTabbedPane();
         encryptTab = new javax.swing.JPanel();
         encryptTextScrollPane = new javax.swing.JScrollPane();
         encryptTextArea = new javax.swing.JTextArea();
@@ -68,15 +73,42 @@ public class MainWindow extends javax.swing.JFrame
         encryptButton = new javax.swing.JButton();
         previewLabel = new javax.swing.JLabel();
         chooseFileButton = new javax.swing.JButton();
+        encryptedTextScrollPane = new javax.swing.JScrollPane();
+        encryptedFileTextArea = new javax.swing.JTextArea();
+        encryptedFileLabel = new javax.swing.JLabel();
+        originalFileLabel = new javax.swing.JLabel();
+        encryptedFilenameField = new javax.swing.JTextField();
+        originalFileTextField = new javax.swing.JTextField();
         decryptTab = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        decryptTextArea = new javax.swing.JTextArea();
         transferTab = new javax.swing.JPanel();
         keyManagementTab = new javax.swing.JPanel();
+        generateKeysButton = new javax.swing.JButton();
+        generatedPublicKeyTextArea = new javax.swing.JTextField();
+        generatedPrivateKeyTextArea = new javax.swing.JTextField();
+        generatedNTextArea = new javax.swing.JTextField();
+        savePublicKeyButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        generatedPublicKeyToEncryptionButton = new javax.swing.JButton();
+        generatedPublicKeyToDecryptionButton = new javax.swing.JButton();
+        savePrivateKeyButton = new javax.swing.JButton();
+        generatedPrivateKeyToEncryptionButton = new javax.swing.JButton();
+        generatedPrivateKeyToDecryptionButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        loadedKeyTextArea = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        loadedNTextArea = new javax.swing.JTextField();
+        useLoadedKeyOnEncryptionButton = new javax.swing.JButton();
+        useLoadedKeyOnDecryptionButton = new javax.swing.JButton();
+        deleteKeyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(700, 480));
-        setPreferredSize(new java.awt.Dimension(640, 480));
+        setMaximumSize(new java.awt.Dimension(700, 840));
+        setMinimumSize(new java.awt.Dimension(700, 700));
+        setPreferredSize(new java.awt.Dimension(740, 700));
+        setResizable(false);
 
         encryptTextScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -126,6 +158,18 @@ public class MainWindow extends javax.swing.JFrame
             }
         });
 
+        encryptedFileTextArea.setColumns(20);
+        encryptedFileTextArea.setRows(5);
+        encryptedTextScrollPane.setViewportView(encryptedFileTextArea);
+
+        encryptedFileLabel.setText("Arquivo criptografado");
+
+        originalFileLabel.setText("Arquivo original");
+
+        encryptedFilenameField.setEditable(false);
+
+        originalFileTextField.setEditable(false);
+
         javax.swing.GroupLayout encryptTabLayout = new javax.swing.GroupLayout(encryptTab);
         encryptTab.setLayout(encryptTabLayout);
         encryptTabLayout.setHorizontalGroup(
@@ -133,115 +177,292 @@ public class MainWindow extends javax.swing.JFrame
             .addGroup(encryptTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(encryptTextScrollPane)
-                    .addGroup(encryptTabLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, encryptTabLayout.createSequentialGroup()
                         .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(RSAKeyLabel)
                             .addComponent(nLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(NKeyText, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                            .addComponent(RSAKeyText))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(encryptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(encryptTabLayout.createSequentialGroup()
-                        .addComponent(previewLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(chooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                            .addComponent(RSAKeyText, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addComponent(encryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(encryptedTextScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, encryptTabLayout.createSequentialGroup()
+                            .addComponent(encryptedFileLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(encryptedFilenameField, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(encryptTextScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(encryptTabLayout.createSequentialGroup()
+                            .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, encryptTabLayout.createSequentialGroup()
+                                    .addComponent(originalFileLabel)
+                                    .addGap(166, 166, 166))
+                                .addGroup(encryptTabLayout.createSequentialGroup()
+                                    .addComponent(previewLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(chooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(originalFileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         encryptTabLayout.setVerticalGroup(
             encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, encryptTabLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(previewLabel)
-                    .addComponent(chooseFileButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(encryptTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(encryptTabLayout.createSequentialGroup()
+                        .addComponent(previewLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(originalFileLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, encryptTabLayout.createSequentialGroup()
+                        .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(originalFileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chooseFileButton))
+                        .addGap(19, 19, 19)))
+                .addComponent(encryptTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(encryptedFileLabel)
+                    .addComponent(encryptedFilenameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(encryptedTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, encryptTabLayout.createSequentialGroup()
                         .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(RSAKeyLabel)
                             .addComponent(RSAKeyText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(encryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nLabel)
                             .addComponent(NKeyText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(encryptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                    .addComponent(encryptButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Criptografar", encryptTab);
-
-        jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        decryptTextArea.setEditable(false);
-        decryptTextArea.setColumns(20);
-        decryptTextArea.setRows(5);
-        jScrollPane2.setViewportView(decryptTextArea);
+        tabbedPane.addTab("Criptografar", encryptTab);
 
         javax.swing.GroupLayout decryptTabLayout = new javax.swing.GroupLayout(decryptTab);
         decryptTab.setLayout(decryptTabLayout);
         decryptTabLayout.setHorizontalGroup(
             decryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 695, Short.MAX_VALUE)
-            .addGroup(decryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(decryptTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGap(0, 736, Short.MAX_VALUE)
         );
         decryptTabLayout.setVerticalGroup(
             decryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
-            .addGroup(decryptTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(decryptTabLayout.createSequentialGroup()
-                    .addGap(61, 61, 61)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(41, Short.MAX_VALUE)))
+            .addGap(0, 622, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Decriptografar", decryptTab);
+        tabbedPane.addTab("Decriptografar", decryptTab);
 
         javax.swing.GroupLayout transferTabLayout = new javax.swing.GroupLayout(transferTab);
         transferTab.setLayout(transferTabLayout);
         transferTabLayout.setHorizontalGroup(
             transferTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 695, Short.MAX_VALUE)
+            .addGap(0, 736, Short.MAX_VALUE)
         );
         transferTabLayout.setVerticalGroup(
             transferTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGap(0, 622, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Transmitir", transferTab);
+        tabbedPane.addTab("Transmitir", transferTab);
+
+        generateKeysButton.setText("Gerar par de chaves");
+        generateKeysButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                generateKeysButtonActionPerformed(evt);
+            }
+        });
+
+        generatedPublicKeyTextArea.setMaximumSize(new java.awt.Dimension(6, 20));
+
+        generatedPrivateKeyTextArea.setMaximumSize(new java.awt.Dimension(6, 20));
+
+        generatedNTextArea.setMaximumSize(new java.awt.Dimension(607, 20));
+
+        savePublicKeyButton.setText("Salvar");
+        savePublicKeyButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                savePublicKeyButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Chave pública:");
+
+        jLabel4.setText("Chave privada:");
+
+        jLabel5.setText("N:");
+
+        jButton3.setText("Carregar chave");
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        generatedPublicKeyToEncryptionButton.setText("Usar na criptografia");
+        generatedPublicKeyToEncryptionButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                generatedPublicKeyToEncryptionButtonActionPerformed(evt);
+            }
+        });
+
+        generatedPublicKeyToDecryptionButton.setText("Usar na decriptografia");
+
+        savePrivateKeyButton.setText("Salvar");
+
+        generatedPrivateKeyToEncryptionButton.setText("Usar na criptografia");
+        generatedPrivateKeyToEncryptionButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                generatedPrivateKeyToEncryptionButtonActionPerformed(evt);
+            }
+        });
+
+        generatedPrivateKeyToDecryptionButton.setText("Usar na decriptografia");
+
+        jLabel6.setText("Chave:");
+
+        jLabel7.setText("N:");
+
+        useLoadedKeyOnEncryptionButton.setText("Usar na criptografia");
+        useLoadedKeyOnEncryptionButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                useLoadedKeyOnEncryptionButtonActionPerformed(evt);
+            }
+        });
+
+        useLoadedKeyOnDecryptionButton.setText("Usar na decriptografia");
+
+        deleteKeyButton.setText("Apagar");
 
         javax.swing.GroupLayout keyManagementTabLayout = new javax.swing.GroupLayout(keyManagementTab);
         keyManagementTab.setLayout(keyManagementTabLayout);
         keyManagementTabLayout.setHorizontalGroup(
             keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 695, Short.MAX_VALUE)
+            .addGroup(keyManagementTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(keyManagementTabLayout.createSequentialGroup()
+                        .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(generateKeysButton)
+                            .addGroup(keyManagementTabLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(generatedPrivateKeyTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(keyManagementTabLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(21, 21, 21)
+                                .addComponent(generatedPublicKeyTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(keyManagementTabLayout.createSequentialGroup()
+                                .addComponent(savePublicKeyButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(generatedPublicKeyToEncryptionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(generatedPublicKeyToDecryptionButton))
+                            .addGroup(keyManagementTabLayout.createSequentialGroup()
+                                .addComponent(savePrivateKeyButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(generatedPrivateKeyToEncryptionButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(generatedPrivateKeyToDecryptionButton))))
+                    .addComponent(jButton3)
+                    .addGroup(keyManagementTabLayout.createSequentialGroup()
+                        .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, keyManagementTabLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(deleteKeyButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(useLoadedKeyOnEncryptionButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(useLoadedKeyOnDecryptionButton))
+                            .addComponent(loadedKeyTextArea)
+                            .addComponent(loadedNTextArea)))
+                    .addGroup(keyManagementTabLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(generatedNTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0))
         );
         keyManagementTabLayout.setVerticalGroup(
             keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGroup(keyManagementTabLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(loadedKeyTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(loadedNTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(useLoadedKeyOnEncryptionButton)
+                    .addComponent(useLoadedKeyOnDecryptionButton)
+                    .addComponent(deleteKeyButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                .addComponent(generateKeysButton)
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(keyManagementTabLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(savePublicKeyButton)
+                            .addComponent(generatedPublicKeyToEncryptionButton)
+                            .addComponent(generatedPublicKeyToDecryptionButton)
+                            .addComponent(generatedPublicKeyTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, keyManagementTabLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(generatedPrivateKeyTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(savePrivateKeyButton)
+                    .addComponent(generatedPrivateKeyToEncryptionButton)
+                    .addComponent(generatedPrivateKeyToDecryptionButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(keyManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(generatedNTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(178, 178, 178))
         );
 
-        jTabbedPane1.addTab("Gerenciamento de chaves", keyManagementTab);
+        tabbedPane.addTab("Chaves", keyManagementTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabbedPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 70, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 50, Short.MAX_VALUE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -284,9 +505,14 @@ public class MainWindow extends javax.swing.JFrame
         }
         
         RSAKey key = new RSAKey(bigIntegerKey, bigIntegerN);
-        /* End of RSA encryption section
+        Encrypter encrypter = new Encrypter(key);
         
-        /*JFileChooser fileChooser = new JFileChooser();
+        encryptedBytes = encrypter.encrypt(bytesReadFromFileEncryption);
+        
+        System.out.println("Encrypted bytes are ready to rock");
+        /* End of RSA encryption section */
+        
+        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setDialogTitle("Salvar como");
         fileChooser.setFileFilter(new TextFileFilter());
@@ -307,16 +533,22 @@ public class MainWindow extends javax.swing.JFrame
 
         String pathToWrite = chosenFile.getAbsolutePath() + ".txt";
         System.out.println("Chosen file to write: " + pathToWrite);
-        */
         
-        /*try 
+        JOptionPane.showMessageDialog(this, "Encriptação realizada com sucesso", "Mensagem encriptada", JOptionPane.PLAIN_MESSAGE);
+        
+        try 
         {
             TextWriter.writeOnFile(pathToWrite, encryptedBytes);
+            
+            encryptedFilenameField.setText(pathToWrite);
         } 
         catch (IOException ex) 
         {
             JOptionPane.showMessageDialog(this, "Erro", "Não foi possível criar o arquivo", JOptionPane.ERROR_MESSAGE);
-        }*/
+        }
+        
+        JOptionPane.showMessageDialog(this, "Encriptação realizada com sucesso!", "Mensagem encriptada", JOptionPane.PLAIN_MESSAGE);
+        
     }//GEN-LAST:event_encryptButtonActionPerformed
 
     private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chooseFileButtonActionPerformed
@@ -354,6 +586,7 @@ public class MainWindow extends javax.swing.JFrame
             System.out.println(stringReadFromFileEncryption);
             
             encryptTextArea.setText(stringReadFromFileEncryption);
+            originalFileTextField.setText(path);
             
             enableEncryptButtonCheck();
         } 
@@ -372,6 +605,66 @@ public class MainWindow extends javax.swing.JFrame
     {//GEN-HEADEREND:event_NKeyTextKeyTyped
         enableEncryptButtonCheck();
     }//GEN-LAST:event_NKeyTextKeyTyped
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
+    {//GEN-HEADEREND:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void savePublicKeyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_savePublicKeyButtonActionPerformed
+    {//GEN-HEADEREND:event_savePublicKeyButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_savePublicKeyButtonActionPerformed
+
+    private void generateKeysButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_generateKeysButtonActionPerformed
+    {//GEN-HEADEREND:event_generateKeysButtonActionPerformed
+        final int PUBLIC = 0;
+        final int PRIVATE = 1;
+        
+        RSAKey keyPair[] = KeyFactory.generatePair();
+        
+        generatedPublicKeyTextArea.setText(keyPair[PUBLIC].key.toString());
+        generatedPrivateKeyTextArea.setText(keyPair[PRIVATE].key.toString());
+        generatedNTextArea.setText(keyPair[PRIVATE].n.toString());
+    }//GEN-LAST:event_generateKeysButtonActionPerformed
+
+    private void useLoadedKeyOnEncryptionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_useLoadedKeyOnEncryptionButtonActionPerformed
+    {//GEN-HEADEREND:event_useLoadedKeyOnEncryptionButtonActionPerformed
+        copyText(RSAKeyText, loadedKeyTextArea);
+        copyText(NKeyText, loadedNTextArea);
+    }//GEN-LAST:event_useLoadedKeyOnEncryptionButtonActionPerformed
+
+    private void generatedPublicKeyToEncryptionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_generatedPublicKeyToEncryptionButtonActionPerformed
+    {//GEN-HEADEREND:event_generatedPublicKeyToEncryptionButtonActionPerformed
+        copyText(RSAKeyText, generatedPublicKeyTextArea);
+        copyText(NKeyText, generatedNTextArea);
+    }//GEN-LAST:event_generatedPublicKeyToEncryptionButtonActionPerformed
+
+    private void generatedPrivateKeyToEncryptionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_generatedPrivateKeyToEncryptionButtonActionPerformed
+    {//GEN-HEADEREND:event_generatedPrivateKeyToEncryptionButtonActionPerformed
+        copyText(RSAKeyText, generatedPrivateKeyTextArea);
+        copyText(NKeyText, generatedNTextArea);
+    }//GEN-LAST:event_generatedPrivateKeyToEncryptionButtonActionPerformed
+
+    private void RSAKeyText1KeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_RSAKeyText1KeyTyped
+    {//GEN-HEADEREND:event_RSAKeyText1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RSAKeyText1KeyTyped
+
+    private void NKeyText1KeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_NKeyText1KeyTyped
+    {//GEN-HEADEREND:event_NKeyText1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NKeyText1KeyTyped
+
+    private void encryptButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_encryptButton1ActionPerformed
+    {//GEN-HEADEREND:event_encryptButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_encryptButton1ActionPerformed
+
+    private void chooseFileButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chooseFileButton1ActionPerformed
+    {//GEN-HEADEREND:event_chooseFileButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chooseFileButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -409,6 +702,10 @@ public class MainWindow extends javax.swing.JFrame
         }
         //</editor-fold>
 
+        RSAKey[] keys = KeyFactory.generatePair();
+        System.out.println("Public key:\n" + keys[0].toString());
+        System.out.println("Private key:\n" + keys[1].toString());
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
@@ -421,20 +718,64 @@ public class MainWindow extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField NKeyText;
+    private javax.swing.JTextField NKeyText1;
     private javax.swing.JLabel RSAKeyLabel;
+    private javax.swing.JLabel RSAKeyLabel1;
     private javax.swing.JTextField RSAKeyText;
+    private javax.swing.JTextField RSAKeyText1;
     private javax.swing.JButton chooseFileButton;
+    private javax.swing.JButton chooseFileButton1;
     private javax.swing.JPanel decryptTab;
-    private javax.swing.JTextArea decryptTextArea;
+    private javax.swing.JButton deleteKeyButton;
     private javax.swing.JButton encryptButton;
+    private javax.swing.JButton encryptButton1;
     private javax.swing.JPanel encryptTab;
     private javax.swing.JTextArea encryptTextArea;
+    private javax.swing.JTextArea encryptTextArea1;
+    private javax.swing.JTextArea encryptTextArea2;
     private javax.swing.JScrollPane encryptTextScrollPane;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane encryptTextScrollPane1;
+    private javax.swing.JScrollPane encryptTextScrollPane2;
+    private javax.swing.JLabel encryptedFileLabel;
+    private javax.swing.JLabel encryptedFileLabel1;
+    private javax.swing.JTextArea encryptedFileTextArea;
+    private javax.swing.JTextArea encryptedFileTextArea1;
+    private javax.swing.JTextArea encryptedFileTextArea2;
+    private javax.swing.JTextField encryptedFilenameField;
+    private javax.swing.JTextField encryptedFilenameField1;
+    private javax.swing.JScrollPane encryptedTextScrollPane;
+    private javax.swing.JScrollPane encryptedTextScrollPane1;
+    private javax.swing.JScrollPane encryptedTextScrollPane2;
+    private javax.swing.JButton generateKeysButton;
+    private javax.swing.JTextField generatedNTextArea;
+    private javax.swing.JTextField generatedPrivateKeyTextArea;
+    private javax.swing.JButton generatedPrivateKeyToDecryptionButton;
+    private javax.swing.JButton generatedPrivateKeyToEncryptionButton;
+    private javax.swing.JTextField generatedPublicKeyTextArea;
+    private javax.swing.JButton generatedPublicKeyToDecryptionButton;
+    private javax.swing.JButton generatedPublicKeyToEncryptionButton;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel keyManagementTab;
+    private javax.swing.JTextField loadedKeyTextArea;
+    private javax.swing.JTextField loadedNTextArea;
     private javax.swing.JLabel nLabel;
+    private javax.swing.JLabel nLabel1;
+    private javax.swing.JLabel originalFileLabel;
+    private javax.swing.JLabel originalFileLabel1;
+    private javax.swing.JTextField originalFileTextField;
+    private javax.swing.JTextField originalFileTextField1;
     private javax.swing.JLabel previewLabel;
+    private javax.swing.JLabel previewLabel1;
+    private javax.swing.JButton savePrivateKeyButton;
+    private javax.swing.JButton savePublicKeyButton;
+    private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JPanel transferTab;
+    private javax.swing.JButton useLoadedKeyOnDecryptionButton;
+    private javax.swing.JButton useLoadedKeyOnEncryptionButton;
     // End of variables declaration//GEN-END:variables
 }

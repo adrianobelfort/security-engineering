@@ -50,7 +50,6 @@ public class HomeSecurity
         RSAKey[] keys;
         RSA rsaEncryption, rsaDecryption;
         byte[] encryptedbytes, decryptedbytes;
-        EncryptedBytes encryptedMessage;
         Scanner scanner = new Scanner(System.in);
         String originalString, decryptedString;
         byte[] stringInBytes;
@@ -59,6 +58,9 @@ public class HomeSecurity
         
         //System.out.println("Private key: " + keys[PRIVATEKEY].key.toString() + " (n = " + keys[PRIVATEKEY].n + ")");
         //System.out.println("Public key: " + keys[PUBLICKEY].key.toString() + " (n = " + keys[PUBLICKEY].n + ")");
+        
+        Encrypter rsaEncrypter = new Encrypter(keys[PRIVATEKEY]);
+        Encrypter rsaDecrypter = new Encrypter(keys[PUBLICKEY]);
         
         rsaEncryption = new RSA(keys[PRIVATEKEY]);
         rsaDecryption = new RSA(keys[PUBLICKEY]);     
@@ -70,17 +72,19 @@ public class HomeSecurity
         System.out.println("Encrypting " + originalString + " ...");
         //encryptedMessage = new EncryptedBytes(rsaEncryption.encrypt(originalString.getBytes()));
         stringInBytes = originalString.getBytes();
-        stringInBytes = Scatterer.scatter(stringInBytes);
+        encryptedbytes = rsaEncrypter.encrypt(stringInBytes);
+        /*stringInBytes = Scatterer.scatter(stringInBytes);
         encryptedbytes = rsaEncryption.encrypt(stringInBytes);
-        System.out.println("");
+        System.out.println("");*/
         
         //System.out.println("The encrypted string is " + convertToString(encryptedMessage.extractInformation()));
         
         System.out.println("Decrypting the encrypted string...");
         //decryptedbytes = rsaDecryption.decrypt(encryptedMessage.extractInformation());
-        decryptedbytes = rsaDecryption.decrypt(encryptedbytes);
+        /*decryptedbytes = rsaDecryption.decrypt(encryptedbytes);
         System.out.println("Scattered, decrypted message: " + new String(decryptedbytes));
-        decryptedbytes = Scatterer.unscatter(decryptedbytes);
+        decryptedbytes = Scatterer.unscatter(decryptedbytes);*/
+        decryptedbytes = rsaDecrypter.decrypt(encryptedbytes);
         decryptedString = new String(decryptedbytes);
         
         System.out.println("");
