@@ -61,11 +61,8 @@ public class RSA
         
         Encrypter.printBits(message);
         
-        //System.out.println(segmentMessage + " / " + segmentCipher + " / byte: " + message.length);
-        
         for(int i=0; i<segmentAmount; i++){
             BigInteger segmentAsNumber = new BigInteger(
-                //Arrays.copyOfRange(message, i*segmentMessage, Math.min((i+1)*segmentCipher, message.length))
                 concat0(Arrays.copyOfRange(message, i*segmentMessage, (i+1)*segmentMessage))
                 );
             
@@ -75,17 +72,8 @@ public class RSA
             BigInteger segmentAsCipher = segmentAsNumber.modPow(key.key, key.n);
             byte[] segmentBytes = segmentAsCipher.toByteArray();
             
-            
-            
             int blankBytes;
             for(blankBytes=0; segmentBytes[blankBytes]==(byte)0; blankBytes++);
-            
-            /*for(int j=0; j<(segmentCipher-segmentBytes.length-blankBytes); j++){
-                segmentBuffer.add((byte)0);
-            }
-            for(int j=blankBytes; j<segmentBytes.length; j++){
-                segmentBuffer.add(segmentBytes[j]);
-            }*/
             
             for(int j=0; j<(segmentCipher-(segmentBytes.length-blankBytes)); j++){
                 segmentBuffer.add((byte)0);
@@ -93,70 +81,7 @@ public class RSA
             for(int j=blankBytes; j<segmentBytes.length; j++){
                 segmentBuffer.add(segmentBytes[j]);
             }
-            
-            /*System.out.println(
-                (segmentCipher-segmentBytes.length) + " + " +
-                segmentBytes.length + " = " +
-                segmentCipher
-                );*/
-        
-            //BigInteger g;
-            //g = new BigInteger("5352345");
-
-            //System.out.println("Hai!" + g.modPow(key.key, key.n).modPow(otherKey, key.n) + " / " + otherKey.multiply(key.key).mod(key.phi));
-            
-            //System.out.println(segmentAsNumber.equals(segmentAsCipher.modPow(otherKey, key.n)));
-            //System.out.println(segmentAsNumber.equals(segmentAsNumber.modPow(key.key, key.n).modPow(otherKey, key.n)));
-            //System.out.println(segmentAsNumber);
-            //System.out.println(segmentAsNumber.modPow(key.key, key.n).modPow(otherKey, key.n));
-            /*for(int j=0; j<segmentCipher; j++){
-                segmentBuffer.add(
-                        (j<(segmentCipher-segmentBytes.length)) ? (byte)0 : segmentBytes[j-segmentCipher+segmentBytes.length]
-                        //(j<segmentBytes.length) ? segmentBytes[j] : (byte)0
-                        //segmentBytes[j]
-                    );
-                    
-            }*/
-            
-            p2 = segmentAsCipher;
-            b2 = Arrays.copyOfRange(
-                Huffman.vectorToByte(segmentBuffer),
-                segmentBuffer.size()-segmentCipher,
-                segmentBuffer.size()
-                );
-           
-            System.out.println("TEST: " +
-                    segmentAsCipher.equals(
-                    new BigInteger(
-                        Arrays.copyOfRange(
-                            Huffman.vectorToByte(segmentBuffer),
-                            segmentBuffer.size()-segmentCipher,
-                            segmentBuffer.size()
-                            )
-                        )
-                    )
-                );
-            
-            //System.out.println("seg: " + segmentAsNumber);
         }
-        
-        /*{
-            BigInteger a, b;
-            a = new BigInteger("43243242342");
-            Vector v = new Vector();
-            for(int i=0; i<a.toByteArray().length; i++){
-                v.add((byte)a.toByteArray()[i]);
-            }
-            v.add((byte)0);
-            v.add((byte)0);
-            System.out.println("TEST2: " + 
-                    (a.equals( 
-                    new BigInteger(
-                            Huffman.vectorToByte(v)
-                            //a.toByteArray()
-                        )
-                    )));
-        }*/
         
         byte[] returnArray = new byte[segmentCipher*segmentAmount+1];
         for(int i=0; i<returnArray.length; i++){
@@ -164,20 +89,10 @@ public class RSA
         }
         
         return returnArray;
-        
-        /*BigInteger messageAsInteger;    // Conversion from bytes to BigInteger
-        BigInteger C;                   // Encrypted message (in BigInteger form)
-        
-        messageAsInteger = new BigInteger(message);
-        C = messageAsInteger.modPow(key.key, key.n); 
-        //System.out.println("Using key " + key.key.toString() + " -> C: " + C.toString());
-        
-        return C.toByteArray();*/
     }
 
     public byte[] decrypt(byte[] message)
     {
-        //System.out.println("dKey: " + key.n + " / " + key.key);
         float bytesRequired = ((float)(key.n.bitLength())/8.0f);
         
         int segmentMessage = (int) Math.floor(bytesRequired-1);
@@ -186,14 +101,12 @@ public class RSA
         int lengthMod = (int)message[0];
         message = Arrays.copyOfRange(message, 1, message.length);
         
-        
         int segmentAmount = (int) Math.ceil((float)message.length/segmentCipher);
         
         Vector segmentBuffer = new Vector();
         
         for(int i=0; i<segmentAmount; i++){
             BigInteger segmentAsNumber = new BigInteger(
-                //Arrays.copyOfRange(message, i*segmentCipher, (i+1)*segmentCipher)
                 concat0(Arrays.copyOfRange(message, i*segmentCipher, (i+1)*segmentCipher))
                 );
             
