@@ -60,6 +60,14 @@ public class KeyFactory
         keys[0] = new RSAKey(d, n);
         keys[1] = new RSAKey(e, n);
         
+        keys[0].phi = phi;
+        keys[1].phi = phi;
+        
+        //BigInteger g;
+        //g = new BigInteger("5352345");
+        
+        //System.out.println("Hai!" + g.modPow(d, n).modPow(e, n) + " / " + d.multiply(e).mod(phi));
+        
         return keys;
     }
 }

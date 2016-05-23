@@ -799,6 +799,7 @@ public class MainWindow extends javax.swing.JFrame
         }
         
         JOptionPane.showMessageDialog(this, "Encriptação realizada com sucesso!", "Mensagem encriptada", JOptionPane.PLAIN_MESSAGE);
+        
     }//GEN-LAST:event_encryptButtonActionPerformed
 
     private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chooseFileButtonActionPerformed

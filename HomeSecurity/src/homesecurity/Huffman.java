@@ -238,6 +238,16 @@ public class Huffman{
 		return ret;
 	}
 
+        public static byte[] vectorToByte(Vector v){
+            byte[] ret = new byte[v.size()];
+            
+            for(int i=0; i<v.size(); i++){
+                ret[i] = (byte)v.get(i);
+            }
+            
+            return ret;
+        }
+        
 	public static byte[] Decode(byte[] msg){
 		BitSet bits = new BitSet();
 		int bitcount = 0;

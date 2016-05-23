@@ -34,13 +34,13 @@ public class Encrypter
     public static byte[] p1, p2, p3, p4;
     
     static int count = 0;
-    public static void compareBytes(byte[] a, byte[] b)
+    public static boolean compareBytes(byte[] a, byte[] b)
     {
-        System.out.println("Comparison #" + count);
-        System.out.println(a.length == b.length ? "\tSizes match" : "\tNope, they dont");
+        System.out.println("Comparison #" + count++);
         
         if(a.length!=b.length){
-            return;
+            System.out.println("\tSizes not matching");
+            return false;
         }
         
         boolean equal = true;
@@ -49,7 +49,8 @@ public class Encrypter
                 equal = false;
         }
         
-        System.out.println(equal ? "\tEqual" : "\tNot qual");
+        System.out.println(equal ? "\tEqual" : "\tNot equal");
+        return equal;
     }
     
     public byte[] encrypt(byte[] data)
@@ -69,20 +70,51 @@ public class Encrypter
         //encryptedData = rsaEncrypter.encrypt(scatteredData);
         //printBits(encryptedData);
         
-        /*encryptedData = receivedData;
+        /*RSAKey[] keys = KeyFactory.generatePair();
+        RSA rsaDecrypter = new RSA(keys[0]);
+        rsaEncrypter = new RSA(keys[1]);
+        rsaEncrypter.otherKey = keys[0].key;*/
+        
+        encryptedData = receivedData;
         p1 = encryptedData;
-        encryptedData = rsaEncrypter.encrypt(encryptedData);
+        encryptedData = Huffman.Encode(encryptedData);
         p2 = encryptedData;
         encryptedData = Scatterer.scatter(encryptedData);
         p3 = encryptedData;
-        encryptedData = Huffman.Encode(encryptedData);
-        p4 = encryptedData;*/
-        
-        encryptedData = Huffman.Encode(data);
-        encryptedData = Scatterer.scatter(encryptedData);
         encryptedData = rsaEncrypter.encrypt(encryptedData);
+        p4 = encryptedData;
         
-        //encryptedData = Huffman.Encode(receivedData);
+        
+        //compareBytes(rsaDecrypter.decrypt(encryptedData), p3);
+        
+        /*boolean worked = true;
+        encryptedData = receivedData;
+        
+        int i, last = -1;
+        for(i=0; i<1000; i++){
+            System.out.println("Test " + i);
+            RSAKey[] keys = KeyFactory.generatePair();
+            RSA rsaDecrypter = new RSA(keys[0]);
+            rsaEncrypter = new RSA(keys[1]);
+            rsaEncrypter.otherKey = keys[0].key;
+
+            encryptedData = receivedData;
+            p1 = encryptedData;
+            encryptedData = Huffman.Encode(encryptedData);
+            p2 = encryptedData;
+            encryptedData = Scatterer.scatter(encryptedData);
+            p3 = encryptedData;
+            encryptedData = rsaEncrypter.encrypt(encryptedData);
+            p4 = encryptedData;
+
+            if(!compareBytes(rsaDecrypter.decrypt(encryptedData), p3)){
+                worked = false;
+                last=i;
+                i=1000;
+            }
+        }
+        
+        System.out.println("STATUS(" + last + "): " + worked);*/
         
         return encryptedData;
     }
@@ -102,18 +134,19 @@ public class Encrypter
         //plainData = unscatteredData;
         //printBits(plainData);
         
-        /*plainData = receivedData;
+        plainData = receivedData;
         compareBytes(plainData, p4);
-        plainData = Huffman.Decode(plainData);
+        plainData = rsaEncrypter.decrypt(plainData);
         compareBytes(plainData, p3);
         plainData = Scatterer.unscatter(plainData);
         compareBytes(plainData, p2);
-        plainData = rsaEncrypter.decrypt(plainData);
-        compareBytes(plainData, p1);*/
-        
-        plainData = rsaEncrypter.decrypt(data);
-        plainData = Scatterer.unscatter(plainData);
         plainData = Huffman.Decode(plainData);
+        compareBytes(plainData, p1);
+        
+        /*plainData = receivedData;
+        plainData = rsaEncrypter.decrypt(plainData);
+        plainData = Scatterer.unscatter(plainData);
+        plainData = Huffman.Decode(plainData);*/
         
         return plainData;
     }

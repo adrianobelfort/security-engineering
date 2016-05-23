@@ -16,6 +16,8 @@ public class RSAKey
     public BigInteger key;
     public BigInteger n;
     
+    public BigInteger phi;
+    
     RSAKey(BigInteger key, BigInteger n)
     {
         this.key = key;
