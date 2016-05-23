@@ -5,10 +5,7 @@
  */
 package homesecurity;
 
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 /**
  *
@@ -56,9 +53,6 @@ public class HomeSecurity
         
         keys = KeyFactory.generatePair();
         
-        //System.out.println("Private key: " + keys[PRIVATEKEY].key.toString() + " (n = " + keys[PRIVATEKEY].n + ")");
-        //System.out.println("Public key: " + keys[PUBLICKEY].key.toString() + " (n = " + keys[PUBLICKEY].n + ")");
-        
         Encrypter rsaEncrypter = new Encrypter(keys[PRIVATEKEY]);
         Encrypter rsaDecrypter = new Encrypter(keys[PUBLICKEY]);
         
@@ -70,20 +64,10 @@ public class HomeSecurity
         originalString = scanner.nextLine();
         
         System.out.println("Encrypting " + originalString + " ...");
-        //encryptedMessage = new EncryptedBytes(rsaEncryption.encrypt(originalString.getBytes()));
         stringInBytes = originalString.getBytes();
         encryptedbytes = rsaEncrypter.encrypt(stringInBytes);
-        /*stringInBytes = Scatterer.scatter(stringInBytes);
-        encryptedbytes = rsaEncryption.encrypt(stringInBytes);
-        System.out.println("");*/
-        
-        //System.out.println("The encrypted string is " + convertToString(encryptedMessage.extractInformation()));
         
         System.out.println("Decrypting the encrypted string...");
-        //decryptedbytes = rsaDecryption.decrypt(encryptedMessage.extractInformation());
-        /*decryptedbytes = rsaDecryption.decrypt(encryptedbytes);
-        System.out.println("Scattered, decrypted message: " + new String(decryptedbytes));
-        decryptedbytes = Scatterer.unscatter(decryptedbytes);*/
         decryptedbytes = rsaDecrypter.decrypt(encryptedbytes);
         decryptedString = new String(decryptedbytes);
         
