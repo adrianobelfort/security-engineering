@@ -67,7 +67,7 @@ public class HomeSecurity
         stringInBytes = originalString.getBytes();
         encryptedbytes = rsaEncrypter.encrypt(stringInBytes);
         
-        System.out.println("Decrypting the encrypted string...");
+        /*System.out.println("Decrypting the encrypted string...");
         decryptedbytes = rsaDecrypter.decrypt(encryptedbytes);
         decryptedString = new String(decryptedbytes);
         
@@ -75,7 +75,7 @@ public class HomeSecurity
         System.out.println("The decrypted string is: " + decryptedString);
         
         System.out.println("The original and decrypted strings are " + (originalString.equalsIgnoreCase(decryptedString) ?
-                "" : "not ") + "equal");
+                "" : "not ") + "equal");*/
     }
     
 }
