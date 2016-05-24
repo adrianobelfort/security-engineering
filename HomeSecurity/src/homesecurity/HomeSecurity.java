@@ -112,7 +112,6 @@ public class HomeSecurity extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Criptobaralhador de Huffman-Fibonacci");
         setMinimumSize(new java.awt.Dimension(700, 700));
-        setResizable(false);
 
         encryptButton.setText("Criptografar");
         encryptButton.setEnabled(false);

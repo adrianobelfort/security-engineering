@@ -2,7 +2,7 @@ all:
 	javac ./homesecurity/*.java
 
 run:
-	java homesecurity/MainWindow
+	java homesecurity/HomeSecurity
 
 clean:
 	rm ./homesecurity/*.class
