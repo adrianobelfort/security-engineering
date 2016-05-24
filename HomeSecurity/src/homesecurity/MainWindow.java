@@ -107,6 +107,7 @@ public class MainWindow extends javax.swing.JFrame
         decryptionDecryptedFilenameLabel = new javax.swing.JLabel();
         decryptKeyGenButton = new javax.swing.JButton();
         decryptLoadKeyButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 700));
@@ -433,16 +434,25 @@ public class MainWindow extends javax.swing.JFrame
 
         tabbedPane.addTab("Decriptografar", decryptTab);
 
+        jLabel1.setFont(new java.awt.Font("Old English Text MT", 0, 24)); // NOI18N
+        jLabel1.setText("Criptobaralhador de Huffman-Fibonacci");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tabbedPane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(168, 168, 168))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 50, Short.MAX_VALUE)
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -554,7 +564,7 @@ public class MainWindow extends javax.swing.JFrame
         try 
         {
             bytesReadFromFileEncryption = TextReader.readFile(path);
-            stringReadFromFileEncryption = new String(bytesReadFromFileEncryption);
+            stringReadFromFileEncryption = new String(bytesReadFromFileEncryption, "UTF-8");
             
             originalFileTextArea.setText(stringReadFromFileEncryption);
             originalFilenameField.setText(path);
@@ -615,7 +625,7 @@ public class MainWindow extends javax.swing.JFrame
         try 
         {
             bytesReadFromFileDecryption = TextReader.readFile(path);
-            stringReadFromFileDecryption = new String(bytesReadFromFileDecryption);
+            stringReadFromFileDecryption = new String(bytesReadFromFileDecryption, "UTF-8");
             
             loadedEncryptedFileTextArea.setText(stringReadFromFileDecryption);
             encryptedFilenameDecryptionField.setText(path);
@@ -926,6 +936,7 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JTextField encryptedFilenameDecryptionField;
     private javax.swing.JTextField encryptedFilenameField;
     private javax.swing.JTextArea encryptedTextArea;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
