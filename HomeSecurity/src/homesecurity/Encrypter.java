@@ -20,6 +20,7 @@ public class Encrypter
         rsaEncrypter = new RSA(key);
     }
     
+    // Função para imprimir na tela bits, para propósitos de debugging
     public static void printBits(byte[] data){
         String s = new String();
         
@@ -31,9 +32,9 @@ public class Encrypter
         System.out.println(s);
     }
     
-    public static byte[] p1, p2, p3, p4;
-    
-    static int count = 0;
+    public static int count;
+
+    // Função para propósito de comparação entre arrays de bytes
     public static boolean compareBytes(byte[] a, byte[] b)
     {
         System.out.println("Comparison #" + count++);
@@ -61,14 +62,17 @@ public class Encrypter
         receivedData = data.clone();
         
         encryptedData = receivedData;
+        // Primeiro comprimimos com Árvore de Huffman
         encryptedData = Huffman.Encode(encryptedData);
+        // Depois fazemos transposição com Fibonacci
         encryptedData = Scatterer.scatter(encryptedData);
+        // Depois encriptamos com RSA
         encryptedData = rsaEncrypter.encrypt(encryptedData);
         
         return encryptedData;
     }
     
-    public byte[] decrypt(byte[] data)
+    public byte[] decrypt(byte[] data) throws Exception
     {
         byte[] decryptedData, receivedData, unscatteredData, plainData;
         
@@ -76,8 +80,11 @@ public class Encrypter
         receivedData = data.clone();
         
         plainData = receivedData;
+        // Primeiro decriptamos com RSA
         plainData = rsaEncrypter.decrypt(plainData);
+        // Depois detranspomos com Fibonacci
         plainData = Scatterer.unscatter(plainData);
+        // Depois descomprimimos com Árvore de Huffman
         plainData = Huffman.Decode(plainData);
         
         return plainData;

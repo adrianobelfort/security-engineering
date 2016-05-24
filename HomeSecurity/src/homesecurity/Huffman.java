@@ -23,13 +23,21 @@ public class Huffman{
 	private static class Node implements Comparable{
 		public Node[] children;
 
+		// Constructor for reading BitSet data
 		Node(BitSet bits, int start){
+			// If it's 1, it's leaf node.
 			leaf = bits.get(start);
 
 			if(leaf){
+				// If the node is leaf, we define it's value to what is in the next
+				// 8 bits, then we define the last position of bit data of this node
+				// at the BitSet
+
 				value = (byte)readBits(bits, start+1, 8);
 				end = start + 9;
 			}else{
+				// If it isn't, we allocate two children and read their data
+
 				children = new Node[2];
 
 				Node childLeft = new Node(bits, start+1);
@@ -43,28 +51,38 @@ public class Huffman{
 		}
 
 		Node(byte v, int f){
+			// Constructor from value and frequency.
+			// Implies that the node isn't leaf.
 			value = v;
 			frequency = f;
 			leaf = true;
 		}
 
 		Node(Node left, Node right){
+			// Constructor for child nodes. If it is the case,
+			// then the node obviously isn't leaf.
 			leaf = false;
 
+			// Sets children nodes
 			children = new Node[2];
 			children[0] = left;
 			children[1] = right;
 
+			// Sets frequency
 			frequency = left.frequency + right.frequency;
 		}
 
+		// Writes Node information starting at start
 		public void writeNode(BitSet bits, int start){
+			// Writes 1 if it's a leaf node. Writes 0 otherwise.
 			bits.set(start, leaf);
 
 			if(leaf){
+				// If it is a leaf not, writes it's value
 				writeBits(bits, start+1, value);
 				end = start+9;
 			}else{
+				// If it isn't, writes their children to the BitSet
 				children[0].writeNode(bits, start+1);
 				children[1].writeNode(bits, children[0].end);
 
@@ -72,6 +90,7 @@ public class Huffman{
 			}
 		}
 
+		// Adds a new node to the HashMap
 		public void addToMap(Map m, BitSet lcode, int depth){
 			if(leaf){
 				m.put(value, this);
@@ -101,6 +120,7 @@ public class Huffman{
 		}
 	}
 
+	// Reads bitamount bits starting from start from BitSet data
 	public static int readBits(BitSet data, int start, int bitamount){
 		int ret = 0;
 		int i;
@@ -112,10 +132,12 @@ public class Huffman{
 		return ret;
 	}
 
+	// Same as before, but for 8 bits
 	public static int readBits(BitSet data, int start){
 		return readBits(data, start, 8);
 	}
 
+	// Writes bitamount bits starting at start with value value, in the BitSet data
 	public static void writeBits(BitSet data, int start, int bitamount, int value){
 		int i;
 
@@ -124,10 +146,12 @@ public class Huffman{
 		}
 	}
 
+	// Same as the last function, but standardized for 8 bits
 	public static void writeBits(BitSet data, int start, int value){
 		writeBits(data, start, 8, value);
 	}
 
+	// For debugging purposes, prints all bits in a bitset
 	public static void printBitSet(BitSet bits, int amount){
 		String s = "";
 
@@ -213,9 +237,13 @@ public class Huffman{
 			}
 		}
 
+		// Calculates the size of the 0 padding at the end
+
 		int remainingBits = (8 - (currentBit%8))%8;
 
+		// Records the padding
 		writeBits(bits, currentBit, remainingBits, 0);
+		// Records the size of the padding
 		writeBits(bits, 0, 3, remainingBits);
 
 		currentBit = currentBit + remainingBits;
@@ -226,84 +254,65 @@ public class Huffman{
 		System.out.println("\tHuffman tree overhead: " + overhead + " bits");
 		System.out.println("\tHuffman total size: " + currentBit + " bits (" + currentBit/8 + " bytes)");*/
 
-		//printBitSet(bits, currentBit);
-
+		// Puts together everything so we can return
 		byte[] ret = new byte[currentBit/8];
 		for(int i=0; i<currentBit; i+=8){
 			ret[i/8] = (byte)readBits(bits, i);
-			//System.out.println(readBits(bits, i/8, 8));
 		}
 
-		//return Arrays.copyOfRange(bits.toByteArray(), 0, currentBit/8);
 		return ret;
 	}
 
-        public static byte[] vectorToByte(Vector v){
-            byte[] ret = new byte[v.size()];
-            
-            for(int i=0; i<v.size(); i++){
-                ret[i] = (byte)v.get(i);
-            }
-            
-            return ret;
+	// Converte de Vector para byte[]
+    public static byte[] vectorToByte(Vector v){
+        byte[] ret = new byte[v.size()];
+        
+        for(int i=0; i<v.size(); i++){
+            ret[i] = (byte)v.get(i);
         }
         
-	public static byte[] Decode(byte[] msg){
+        return ret;
+    }
+        
+	public static byte[] Decode(byte[] msg) throws Exception{
 		BitSet bits = new BitSet();
 		int bitcount = 0;
 
+		// Loads information into the BitSet
 		for(byte b: msg){
 			writeBits(bits, bitcount, b);
 			bitcount = bitcount+8;
 		}
 
-		//printBitSet(bits, bitcount);
-
-		//byte[] ret = new byte[5];
-
+		// Reads padding size
 		int zeroPadding = readBits(bits, 0, 3);
 
+		// Allocated first node and reads the bitset
 		Node huffmanTree = new Node(bits, 3);
 		Vector result = new Vector();
 
 		Node currentNode = huffmanTree;
 		int currentBit = huffmanTree.end;
 
+		// Goes through the bits
 		for(; currentBit!=(bitcount-zeroPadding); currentBit++){
+			// If bit is zero, we go to the left child. We go to the right
+			// child otherwise
 			currentNode = currentNode.children[bits.get(currentBit) ? 1 : 0];
 
+			// If it's a leaf node, we add it's value to the output
 			if(currentNode.leaf){
 				result.add(currentNode.value);
 				currentNode = huffmanTree;
 			}
 		}
 
+		// Returning result
 		byte[] ret = new byte[result.size()];
 		for(int i=0; i<result.size(); i++){
 			ret[i] = (byte)result.get(i);
 		}
 
 		return ret;
-	}
-
-	public static void main(String[] args){
-		String message = "test message.";
-
-		byte[] encoded;
-		byte[] decoded;
-
-                encoded = Huffman.Encode(message.getBytes());
-                decoded = Decode(encoded);
-
-                char[] msg = new char[decoded.length];
-
-                int i;
-                for(i=0; i<msg.length; i++){
-                        msg[i] = (char)decoded[i];
-                }
-
-                System.out.println(msg);
-                System.out.println(new String("decoded"));
-		
 	}
 }

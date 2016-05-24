@@ -664,44 +664,49 @@ public class MainWindow extends javax.swing.JFrame
         RSAKey key = new RSAKey(bigIntegerKey, bigIntegerN);
         Encrypter decrypter = new Encrypter(key);
         
-        decryptedBytes = decrypter.decrypt(bytesReadFromFileDecryption);
+        try{
+
+            decryptedBytes = decrypter.decrypt(bytesReadFromFileDecryption);
         
-        /* End of RSA encryption section */
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setDialogTitle("Salvar arquivo decriptado como");
-        fileChooser.setFileFilter(new TextFileFilter());
-        int resultado = fileChooser.showSaveDialog(this);
-
-        if (resultado == JFileChooser.CANCEL_OPTION)
-        {
-            return;
-        }
-
-        File chosenFile = fileChooser.getSelectedFile();
-
-        if(chosenFile.getName().equals(""))
-        {
-            JOptionPane.showMessageDialog(this, "Nome inválido", "Nome inválido", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String pathToWrite = chosenFile.getAbsolutePath() + ".txt";
-        
-        try 
-        {
-            TextWriter.writeOnFile(pathToWrite, decryptedBytes);
+            /* End of RSA encryption section */
             
-            decryptedFilenameField.setText(pathToWrite);
-            decryptedFileTextArea.setText(new String(decryptedBytes));
-        } 
-        catch (IOException ex) 
-        {
-            JOptionPane.showMessageDialog(this, "Erro", "Não foi possível criar o arquivo", JOptionPane.ERROR_MESSAGE);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setDialogTitle("Salvar arquivo decriptado como");
+            fileChooser.setFileFilter(new TextFileFilter());
+            int resultado = fileChooser.showSaveDialog(this);
+
+            if (resultado == JFileChooser.CANCEL_OPTION)
+            {
+                return;
+            }
+
+            File chosenFile = fileChooser.getSelectedFile();
+
+            if(chosenFile.getName().equals(""))
+            {
+                JOptionPane.showMessageDialog(this, "Nome inválido", "Nome inválido", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String pathToWrite = chosenFile.getAbsolutePath() + ".txt";
+            
+            try 
+            {
+                TextWriter.writeOnFile(pathToWrite, decryptedBytes);
+                
+                decryptedFilenameField.setText(pathToWrite);
+                decryptedFileTextArea.setText(new String(decryptedBytes));
+            } 
+            catch (IOException ex) 
+            {
+                JOptionPane.showMessageDialog(this, "Erro", "Não foi possível criar o arquivo", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            JOptionPane.showMessageDialog(this, "Decriptação realizada com sucesso!", "Mensagem decriptada", JOptionPane.PLAIN_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Não foi possível decriptar. Talvez você tenha usado a chave errada ou arquivo errado?");
         }
-        
-        JOptionPane.showMessageDialog(this, "Decriptação realizada com sucesso!", "Mensagem decriptada", JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_decryptButtonActionPerformed
     
     private void generateAndSaveKeys()
